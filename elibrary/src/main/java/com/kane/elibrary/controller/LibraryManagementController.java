@@ -3,19 +3,21 @@ package com.kane.elibrary.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kane.elibrary.domain.Book;
 import com.kane.elibrary.service.BookIssueService;
 import com.kane.elibrary.service.BookRetrievalService;
 import com.kane.elibrary.service.BookReturnService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class LibraryManagementController {
 
     @Autowired

@@ -1,11 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
-import {LibraryUI} from './components/LibraryUI/LibraryUI';
+import {LibraryUI} from './components/LibraryUI/LibraryUI.jsx';
 
 function App() {
   return (
     <div>
-      <LibraryUI/>
+     <LibraryUI />
     </div>
   );
 }
