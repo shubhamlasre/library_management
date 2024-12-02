@@ -24,16 +24,32 @@ public class BookIssueDetail {
 
     private String bookName;
 
+    private String borrowerName;
+
+    private String borrowerEmailId;
+
+    private long borrowerContact;
+
     private LocalDate issueDate;
+
+    private String issuedBy;
 
     private LocalDate returnDate;
 
+    private String returnerName;
+
+    private long returnerContact;
+
     private boolean isTransactionActive;
 
-    public BookIssueDetail(long bookId, String bookName, LocalDate issueDate, LocalDate returnDate, boolean isTransactionActive) {
+    public BookIssueDetail(long bookId, String bookName, String borrowerName, String borrowerEmailId, long borrowerContact, LocalDate issueDate, String issuedBy, LocalDate returnDate, boolean isTransactionActive) {
         this.bookId = bookId;
         this.bookName = bookName;
+        this.borrowerName = borrowerName;
+        this.borrowerEmailId = borrowerEmailId;
+        this.borrowerContact = borrowerContact;
         this.issueDate = issueDate;
+        this.issuedBy = issuedBy;
         this.returnDate = returnDate;
         this.isTransactionActive = isTransactionActive;
     }

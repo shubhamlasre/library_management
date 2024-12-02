@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kane.elibrary.domain.Book;
 import com.kane.elibrary.domain.BookIssueDetail;
+import com.kane.elibrary.domain.BookReturnCriteria;
 import com.kane.elibrary.repository.BookIssueDetailRepository;
 import com.kane.elibrary.repository.BookRepository;
 import com.kane.elibrary.service.BookReturnService;
@@ -22,13 +23,13 @@ public class BookReturnServiceImpl implements BookReturnService {
     private BookIssueDetailRepository bookIssueRepo;
 
     @Override
-    public String returnBook(long issueId) {
+    public String returnBook(BookReturnCriteria returnCriteria) {
 
         String message;
-        Optional<BookIssueDetail> issueDetailOptional = bookIssueRepo.findById(issueId);
+        Optional<BookIssueDetail> issueDetailOptional = bookIssueRepo.findById(returnCriteria.getBookIssueId());
         if (issueDetailOptional.isPresent()) {
             BookIssueDetail issueDetail = issueDetailOptional.get();
-            bookIssueRepo.updateReturnDateAndIsTransactionActive(issueId, LocalDate.now(), false);
+            bookIssueRepo.updateReturnDetailsAndIsTransactionActive(returnCriteria.getBookIssueId(), LocalDate.now(), returnCriteria.getReturnerName(), returnCriteria.getReturnerContact(), false);
             // if the book is issued means it is definitely present in the repository
             Book book = bookRepo.findById(issueDetail.getBookId()).get();
             bookRepo.updateBookStock(book.getBookId(), book.getStock() + 1);

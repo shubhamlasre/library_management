@@ -5,13 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kane.elibrary.domain.Book;
+import com.kane.elibrary.domain.BookIssueCriteria;
+import com.kane.elibrary.domain.BookReturnCriteria;
 import com.kane.elibrary.service.BookIssueService;
 import com.kane.elibrary.service.BookRetrievalService;
 import com.kane.elibrary.service.BookReturnService;
@@ -30,14 +32,14 @@ public class LibraryManagementController {
     private BookReturnService bookReturnService;
 
     @PostMapping("/issueBook")
-    public String issueBook(@RequestParam long bookId) {
-        String message = bookIssueService.issueBook(bookId);
+    public String issueBook(@RequestBody BookIssueCriteria issueCriteria) {
+        String message = bookIssueService.issueBook(issueCriteria);
         return message;
     }
 
-    @PutMapping("/returnBook/{issueId}")
-    public String returnBook(@PathVariable long issueId) {
-        String message = bookReturnService.returnBook(issueId);
+    @PutMapping("/returnBook")
+    public String returnBook(@RequestBody BookReturnCriteria returnCriteria) {
+        String message = bookReturnService.returnBook(returnCriteria);
         return message;
     }
 
@@ -48,8 +50,8 @@ public class LibraryManagementController {
     }
 
     @GetMapping("/fetchBook")
-    public Book fetchBook(@RequestParam String bookName) {
-        Book book = bookRetrievalService.fetchBook(bookName);
-        return book;
+    public List<Book> fetchBook(@RequestParam String bookName) {
+        List<Book> books = bookRetrievalService.fetchBook(bookName);
+        return books;
     }
 }

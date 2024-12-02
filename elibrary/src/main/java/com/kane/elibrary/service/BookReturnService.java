@@ -1,6 +1,8 @@
 package com.kane.elibrary.service;
 
+import com.kane.elibrary.domain.BookReturnCriteria;
+
 public interface BookReturnService {
 
-    public String returnBook(long bookId);
+    public String returnBook(BookReturnCriteria returnCriteria);
 }

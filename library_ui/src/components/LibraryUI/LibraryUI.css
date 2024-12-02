@@ -4,8 +4,7 @@
     flex-direction: column;
     margin: auto;
     margin-top: 10px;
-    /* width: 1000px; */
-    background: #c69874;
+    /* background: #c69874; */
     padding-bottom: 30px;
 }
 
@@ -16,8 +15,10 @@
     margin: auto;
     margin-top: 50px;
     width: 800px;
-    background: #c69874;
+    /* background: #c69874; */
     padding-bottom: 30px;
+    gap: 30px;
+    align-items: center;
 }
 
 .header
@@ -43,14 +44,6 @@
     height: 6px;
     background: #080113;
     border-radius: 9px;
-}
-
-.service-container
-{
-    display: flex;
-    gap: 30px;
-    margin: 60px auto;
-    align-items: center;
 }
 
 .service-button

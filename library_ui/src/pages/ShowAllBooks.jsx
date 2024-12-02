@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../components/LibraryUI/Header";
-import { toast, ToastContainer } from "react-toastify";
 import "./IssueBook.css";
 
-export const FindBook = () => {
-    const url = "http://localhost:8080/fetchBook?bookName=";
+export const ShowAllBooks = () => {
+    const url = "http://localhost:8080/fetchBooks";
     const [data, setData] = useState([]);
-    const [bookName, setBookName] = useState("");
 
-    const fetchBook = () => {
-        fetch(url + bookName)
+    const fetchBooks = () => {
+        fetch(url)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
@@ -24,35 +22,16 @@ export const FindBook = () => {
             });
     };
 
-    const handleChanges = (e) => {
-        setBookName(e.target.value);
-    };
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        fetchBook();
-        toast(data, {
-            closeButton: ({ closeToast }) => (
-                <button
-                    onClick={() => {
-                        closeToast();
-                    }}>
-                    OK
-                </button>
-            ),
-        });
-    };
+    useEffect(() => {
+        fetchBooks();
+    }, []);
 
     return (
-        <div className="container">
+        <div>
             <Header />
             <div className="find-book-container">
-                <h1>Find Book</h1>
-                <form onSubmit={handleSearch}>
-                    <label htmlFor="bookName">Book Name</label>
-                    <input type="text" placeholder="Enter Book Name to be searched" name="bookName" onChange={(e) => handleChanges(e)} required value={bookName} />
-                    <button type="submit">Search</button>
-                </form>
+                <h1>All Book</h1>
+
                 <table className="table" align="center">
                     <thead>
                         <tr>
@@ -83,7 +62,6 @@ export const FindBook = () => {
                         )}
                     </tbody>
                 </table>
-                <ToastContainer />
             </div>
         </div>
     );

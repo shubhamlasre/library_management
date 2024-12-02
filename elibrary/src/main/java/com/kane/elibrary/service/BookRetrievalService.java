@@ -8,5 +8,5 @@ public interface BookRetrievalService {
 
     public List<Book> fetchAllBooks();
 
-    public Book fetchBook(String bookName);
+    public List<Book> fetchBook(String bookName);
 }

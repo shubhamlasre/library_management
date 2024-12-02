@@ -28,6 +28,9 @@ export const LibraryUI = () => {
                 <div className="service-button">
                     <Link to="/findBook">Find Book</Link>
                 </div>
+                <div className="service-button">
+                    <Link to="/showAllBooks">Show All Books</Link>
+                </div>
             </div>
         </div>
     );

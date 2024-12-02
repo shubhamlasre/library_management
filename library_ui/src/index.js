@@ -5,6 +5,7 @@ import App from './App';
 import { IssueBook } from './pages/IssueBook';
 import { ReturnBook } from './pages/ReturnBook';
 import { FindBook } from './pages/FindBook';
+import { ShowAllBooks } from './pages/ShowAllBooks';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/findBook",
     element: <FindBook/>
+  },
+  {
+    path: "/showAllBooks",
+    element: <ShowAllBooks/>
   }
 ]);
 

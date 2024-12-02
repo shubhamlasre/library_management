@@ -1,27 +1,65 @@
 import React, { useState } from "react";
 import { Header } from "../components/LibraryUI/Header";
+import { toast, ToastContainer } from "react-toastify";
 import "./IssueBook.css";
 
 export const ReturnBook = () => {
+    const url = "http://localhost:8080/returnBook";
+    const [data, setData] = useState("");
     const [values, setValues] = useState({
-        bookId: "",
+        issueId: "",
         name: "",
-        email: "",
-        gender: "",
         contact: "",
     });
 
+    const returnBooks = () => {
+        fetch(url, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                bookIssueId: values.issueId,
+                returnerName: values.name,
+                returnerContact: values.contact,
+            }),
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then((d) => {
+                setData(d);
+            })
+            .catch((error) => {
+                console.error("Error fetching books:", error);
+            });
+    };
+
     const handleChanges = (e) => {
-        setValues({ ...values, [e.target.name]: [e.target.value] });
+        setValues({ ...values, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(values);
+        returnBooks();
+        toast(data, {
+            closeButton: ({ closeToast }) => (
+                <button
+                    onClick={() => {
+                        closeToast();
+                    }}>
+                    OK
+                </button>
+            ),
+        });
     };
 
     const ResetFunction = () => {
-        setValues({ bookId: "", name: "", email: "", contact: "" });
+        setValues({ bookId: "", name: "", contact: "" });
     };
 
     return (
@@ -34,8 +72,6 @@ export const ReturnBook = () => {
                     <input type="text" placeholder="Enter Issue Number" name="issueId" onChange={(e) => handleChanges(e)} required value={values.issueId} />
                     <label htmlFor="name">Name*</label>
                     <input type="text" placeholder="Enter Name" name="name" onChange={(e) => handleChanges(e)} required value={values.name} />
-                    <label htmlFor="email">Email*</label>
-                    <input type="email" placeholder="Enter Email" name="email" onChange={(e) => handleChanges(e)} required value={values.email} />
                     <label htmlFor="contact">Contact</label>
                     <input type="text" placeholder="Enter Phone #" name="contact" onChange={(e) => handleChanges(e)} required value={values.contact} />
                     <button type="button" onClick={ResetFunction}>
@@ -43,6 +79,7 @@ export const ReturnBook = () => {
                     </button>
                     <button type="submit">Submit</button>
                 </form>
+                <ToastContainer />
             </div>
         </div>
     );

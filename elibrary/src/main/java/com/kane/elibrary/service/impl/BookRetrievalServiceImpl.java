@@ -22,9 +22,9 @@ public class BookRetrievalServiceImpl implements BookRetrievalService {
     }
 
     @Override
-    public Book fetchBook(String bookName) {
-        Book book = bookRepo.findByBookName(bookName);
-        return book;
+    public List<Book> fetchBook(String bookName) {
+        List<Book> books = bookRepo.findByBookNameLike(bookName);
+        return books;
     }
 
 }
