@@ -1,6 +1,7 @@
 package com.kane.elibrary.service.impl;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,18 @@ public class BookReturnServiceImpl implements BookReturnService {
         Optional<BookIssueDetail> issueDetailOptional = bookIssueRepo.findById(returnCriteria.getBookIssueId());
         if (issueDetailOptional.isPresent()) {
             BookIssueDetail issueDetail = issueDetailOptional.get();
-            bookIssueRepo.updateReturnDetailsAndIsTransactionActive(returnCriteria.getBookIssueId(), LocalDate.now(), returnCriteria.getReturnerName(), returnCriteria.getReturnerContact(), false);
-            // if the book is issued means it is definitely present in the repository
-            Book book = bookRepo.findById(issueDetail.getBookId()).get();
-            bookRepo.updateBookStock(book.getBookId(), book.getStock() + 1);
-            message = "Book ( " + issueDetail.getBookName() + " ) returned Successfully";
+            if (issueDetail.isTransactionActive()) {
+                long daysBetween = ChronoUnit.DAYS.between(issueDetail.getExpectedReturnDate(), LocalDate.now());
+                //fine of 10 per day just for the scenario
+                float fine = daysBetween > 0 ? daysBetween * 10 : 0;
+                bookIssueRepo.updateReturnDetailsAndIsTransactionActive(returnCriteria.getBookIssueId(), LocalDate.now(), returnCriteria.getReturnerName(), returnCriteria.getReturnerContact(), false, fine);
+                // if the book is issued means it is definitely present in the repository
+                Book book = bookRepo.findById(issueDetail.getBookId()).get();
+                bookRepo.updateBookStock(book.getBookId(), book.getStock() + 1);
+                message = "Book ( " + issueDetail.getBookName() + " ) returned Successfully";
+            } else {
+                message = "No active transaction exist";
+            }
         } else {
             message = "Incorrect issueId";
         }

@@ -34,7 +34,9 @@ public class BookIssueDetail {
 
     private String issuedBy;
 
-    private LocalDate returnDate;
+    private LocalDate expectedReturnDate;
+
+    private LocalDate actualReturnDate;
 
     private String returnerName;
 
@@ -42,7 +44,9 @@ public class BookIssueDetail {
 
     private boolean isTransactionActive;
 
-    public BookIssueDetail(long bookId, String bookName, String borrowerName, String borrowerEmailId, long borrowerContact, LocalDate issueDate, String issuedBy, LocalDate returnDate, boolean isTransactionActive) {
+    private float fine;
+
+    public BookIssueDetail(long bookId, String bookName, String borrowerName, String borrowerEmailId, long borrowerContact, LocalDate issueDate, String issuedBy, LocalDate expectedReturnDate, boolean isTransactionActive) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.borrowerName = borrowerName;
@@ -50,7 +54,7 @@ public class BookIssueDetail {
         this.borrowerContact = borrowerContact;
         this.issueDate = issueDate;
         this.issuedBy = issuedBy;
-        this.returnDate = returnDate;
+        this.expectedReturnDate = expectedReturnDate;
         this.isTransactionActive = isTransactionActive;
     }
 }

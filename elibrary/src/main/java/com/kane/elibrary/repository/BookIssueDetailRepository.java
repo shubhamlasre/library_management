@@ -16,8 +16,8 @@ public interface BookIssueDetailRepository extends JpaRepository<BookIssueDetail
 
     @Modifying
     @Transactional
-    @Query("Update BookIssueDetail b SET b.returnDate = :returnDate, b.isTransactionActive = :isTransactionActive, "
-            + "b.returnerName = :returnerName, b.returnerContact = :returnerContact WHERE b.issueId = :issueId")
-    public int updateReturnDetailsAndIsTransactionActive(long issueId, LocalDate returnDate, String returnerName, long returnerContact, boolean isTransactionActive);
+    @Query("Update BookIssueDetail b SET b.actualReturnDate = :actualReturnDate, b.isTransactionActive = :isTransactionActive, "
+            + "b.returnerName = :returnerName, b.returnerContact = :returnerContact, b.fine = :fine WHERE b.issueId = :issueId")
+    public int updateReturnDetailsAndIsTransactionActive(long issueId, LocalDate actualReturnDate, String returnerName, long returnerContact, boolean isTransactionActive, float fine);
 
 }

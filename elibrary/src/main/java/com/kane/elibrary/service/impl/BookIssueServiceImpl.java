@@ -30,7 +30,7 @@ public class BookIssueServiceImpl implements BookIssueService {
         if (optionalBook.isPresent()) {
             Book book = optionalBook.get();
             if (book.getStock() > 0) {
-                BookIssueDetail bookIssueDetail = new BookIssueDetail(book.getBookId(), book.getBookName(), issueCriteria.getBorrowerName(), issueCriteria.getBorrowerEmailId(), issueCriteria.getBorrowerContact(), LocalDate.now(), issueCriteria.getIssuedBy(), null, true);
+                BookIssueDetail bookIssueDetail = new BookIssueDetail(book.getBookId(), book.getBookName(), issueCriteria.getBorrowerName(), issueCriteria.getBorrowerEmailId(), issueCriteria.getBorrowerContact(), LocalDate.now(), issueCriteria.getIssuedBy(), LocalDate.now().plusDays(7), true);
                 bookIssuerepo.save(bookIssueDetail);
                 bookRepo.updateBookStock(issueCriteria.getBookId(), book.getStock() - 1);
                 message = "Book ( " + book.getBookName() + " ) issued to " + issueCriteria.getBorrowerName() + " successfully";
