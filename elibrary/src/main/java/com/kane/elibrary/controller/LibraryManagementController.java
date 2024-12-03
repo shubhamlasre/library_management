@@ -1,8 +1,7 @@
 package com.kane.elibrary.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,14 +43,14 @@ public class LibraryManagementController {
     }
 
     @GetMapping("/fetchBooks")
-    public List<Book> fetchAllBooks() {
-        List<Book> books = bookRetrievalService.fetchAllBooks();
+    public Page<Book> fetchAllBooks(@RequestParam int pageNumber, @RequestParam int pageSize) {
+        Page<Book> books = bookRetrievalService.fetchAllBooks(pageNumber, pageSize);
         return books;
     }
 
     @GetMapping("/fetchBook")
-    public List<Book> fetchBook(@RequestParam String bookName) {
-        List<Book> books = bookRetrievalService.fetchBook(bookName);
+    public Page<Book> fetchBook(@RequestParam String bookName, @RequestParam int pageNumber, @RequestParam int pageSize) {
+        Page<Book> books = bookRetrievalService.fetchBook(bookName, pageNumber, pageSize);
         return books;
     }
 }

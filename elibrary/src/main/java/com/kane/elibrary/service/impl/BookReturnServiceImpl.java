@@ -38,7 +38,7 @@ public class BookReturnServiceImpl implements BookReturnService {
                 // if the book is issued means it is definitely present in the repository
                 Book book = bookRepo.findById(issueDetail.getBookId()).get();
                 bookRepo.updateBookStock(book.getBookId(), book.getStock() + 1);
-                message = "Book ( " + issueDetail.getBookName() + " ) returned Successfully";
+                message = "Book ( " + issueDetail.getBookName() + " ) returned Successfully. Amount of fine to be paid is " + fine;
             } else {
                 message = "No active transaction exist";
             }

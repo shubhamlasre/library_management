@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Header } from "../components/LibraryUI/Header";
-import { toast, ToastContainer } from "react-toastify";
 import "./IssueBook.css";
 
 export const FindBook = () => {
     const url = "http://localhost:8080/fetchBook?bookName=";
-    const [data, setData] = useState([]);
     const [bookName, setBookName] = useState("");
+    const [books, setBooks] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
 
     const fetchBook = () => {
-        fetch(url + bookName)
+        fetch(url + bookName + "&pageNumber=" + currentPage + "&pageSize=10")
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
@@ -17,7 +18,8 @@ export const FindBook = () => {
                 return res.json();
             })
             .then((d) => {
-                setData(d);
+                setBooks(d.content);
+                setTotalPages(d.totalPages);
             })
             .catch((error) => {
                 console.error("Error fetching books:", error);
@@ -31,23 +33,28 @@ export const FindBook = () => {
     const handleSearch = (e) => {
         e.preventDefault();
         fetchBook();
-        toast(data, {
-            closeButton: ({ closeToast }) => (
-                <button
-                    onClick={() => {
-                        closeToast();
-                    }}>
-                    OK
-                </button>
-            ),
-        });
+    };
+
+    const previousPage = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1);
+            fetchBook(currentPage);
+        }
+    };
+
+    const nextPage = () => {
+        if (currentPage < totalPages - 1) {
+            setCurrentPage(currentPage + 1);
+            fetchBook(currentPage);
+        }
     };
 
     return (
         <div className="container">
             <Header />
-            <div className="find-book-container">
+            <div className="book-container">
                 <h1>Find Book</h1>
+                <div className="underline"></div>
                 <form onSubmit={handleSearch}>
                     <label htmlFor="bookName">Book Name</label>
                     <input type="text" placeholder="Enter Book Name to be searched" name="bookName" onChange={(e) => handleChanges(e)} required value={bookName} />
@@ -65,12 +72,12 @@ export const FindBook = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.length === 0 ? (
+                        {books.length === 0 ? (
                             <tr>
                                 <td colSpan="10">No books available</td>
                             </tr>
                         ) : (
-                            data.map((book) => (
+                            books.map((book) => (
                                 <tr key={book.bookId}>
                                     <td>{book.bookId}</td>
                                     <td>{book.bookName}</td>
@@ -83,7 +90,20 @@ export const FindBook = () => {
                         )}
                     </tbody>
                 </table>
-                <ToastContainer />
+                {currentPage === 0 ? (
+                    <></>
+                ) : (
+                    <button type="button" onClick={previousPage}>
+                        Previous
+                    </button>
+                )}
+                {books.length === 0 || currentPage === totalPages - 1 ? (
+                    <></>
+                ) : (
+                    <button type="button" onClick={nextPage}>
+                        Next
+                    </button>
+                )}
             </div>
         </div>
     );

@@ -57,8 +57,9 @@ export const ReturnBook = () => {
     return (
         <div className="container">
             <Header />
-            <div className="return-book-container">
+            <div className="book-container">
                 <h1>Return Book</h1>
+                <div className="underline"></div>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="issueId">Issue Number*</label>
                     <input type="text" placeholder="Enter Issue Number" name="issueId" onChange={(e) => handleChanges(e)} required value={values.issueId} />

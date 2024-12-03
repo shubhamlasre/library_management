@@ -61,8 +61,9 @@ export const IssueBook = () => {
     return (
         <div className="container">
             <Header />
-            <div className="issue-book-container">
+            <div className="book-container">
                 <h1>Issue Book</h1>
+                <div className="underline"></div>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="bookId">Book Id*</label>
                     <input type="text" placeholder="Enter Book Id" name="bookId" onChange={(e) => handleChanges(e)} required value={values.bookId} />
@@ -78,13 +79,7 @@ export const IssueBook = () => {
                     <button type="button" onClick={ResetFunction}>
                         Reset
                     </button>
-                    <button
-                        type="submit"
-                        onClick={() => {
-                            setAction("Submitted");
-                        }}>
-                        Submit
-                    </button>
+                    <button type="submit">Submit</button>
                 </form>
             </div>
         </div>

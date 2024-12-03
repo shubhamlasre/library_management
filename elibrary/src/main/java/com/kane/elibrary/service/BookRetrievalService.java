@@ -1,12 +1,12 @@
 package com.kane.elibrary.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 import com.kane.elibrary.domain.Book;
 
 public interface BookRetrievalService {
 
-    public List<Book> fetchAllBooks();
+    public Page<Book> fetchAllBooks(int pageNumber, int pageSize);
 
-    public List<Book> fetchBook(String bookName);
+    public Page<Book> fetchBook(String bookName, int pageNumber, int pageSize);
 }

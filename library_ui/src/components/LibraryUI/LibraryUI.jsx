@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import book_img from "../Assets/book_shelf.jpg";
+import book_img from "../Assets/shelf.jpg";
 import { Header } from "./Header";
 import "./LibraryUI.css";
 
@@ -9,28 +9,28 @@ export const LibraryUI = () => {
 
     const myStyle = {
         backgroundImage: `url(${book_img})`,
-        height: "300px",
+        height: "100%",
         width: "100%",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
     };
 
     return (
-        <div className="container">
+        <div className="container" style={myStyle}>
             <Header />
             <div className="service-container">
-                <div className="service-button">
-                    <Link to="/issueBook">Issue Book</Link>
-                </div>
-                <div className="service-button">
-                    <Link to="/returnBook">Return Book</Link>
-                </div>
-                <div className="service-button">
-                    <Link to="/findBook">Find Book</Link>
-                </div>
-                <div className="service-button">
-                    <Link to="/showAllBooks">Show All Books</Link>
-                </div>
+                <Link to="/issueBook" className="service-button">
+                    Issue Book
+                </Link>
+                <Link to="/returnBook" className="service-button">
+                    Return Book
+                </Link>
+                <Link to="/findBook" className="service-button">
+                    Find Book
+                </Link>
+                <Link to="/showAllBooks" className="service-button">
+                    Show All Books
+                </Link>
             </div>
         </div>
     );

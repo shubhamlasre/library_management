@@ -1,6 +1,6 @@
-.issue-book-container
+.book-container
 {
-    background-color: #fff;
+    background-color: #ede7e7;
     border-radius: 15px;
     box-shadow: 0 0 20px rgb(0, 0, 0, 0.2);
     padding: 10px 20px;
@@ -11,39 +11,20 @@
     margin-top: 20px;
 }
 
-.return-book-container
+.underline
 {
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgb(0, 0, 0, 0.2);
-    padding: 10px 20px;
-    transition: transform 0.2s;
-    width: 90%;
-    text-align: center;
-    margin: auto;
-    margin-top: 20px;
-}
-
-.find-book-container
-{
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgb(0, 0, 0, 0.2);
-    padding: 10px 20px;
-    transition: transform 0.2s;
-    width: 90%;
-    text-align: center;
-    /* align-items: center; */
-    /* justify-content: center; */
-    margin: auto;
-    margin-top: 20px;
+    width: 130px;
+    height: 3px;
+    justify-self: center;
+    background: #000;
+    border-radius: 9px;
 }
 
 h1
 {
     font-size: large;
     text-align: center;
-    color: #080113; 
+    color: #000;
 }
 
 label
@@ -83,14 +64,25 @@ button
     border: none;
     color: white;
     cursor: pointer;
-    background-color: #080113;
-    width: 40%;
-    font-size: 16px;
+    background-color: #04AA6D;
+    width: 20%;
+    font-size: 12px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-button:hover
-{
-    background-color: #2b036c;
+button:hover {
+    background-color: #45c185;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.button:active {
+    background-color: #038f56;
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.button:focus {
+    outline: none;
 }
 
 th, td {
@@ -112,6 +104,7 @@ th {
     padding-left: 62px;
     margin-top: 27px;
     color: #570e0e;
-    font-size: 18px;
+    font-size: 15px;
+    text-align: center;
 }
 

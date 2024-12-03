@@ -3,11 +3,13 @@ import { Header } from "../components/LibraryUI/Header";
 import "./IssueBook.css";
 
 export const ShowAllBooks = () => {
-    const url = "http://localhost:8080/fetchBooks";
-    const [data, setData] = useState([]);
+    const url = "http://localhost:8080/fetchBooks?pageNumber=";
+    const [books, setBooks] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
 
-    const fetchBooks = () => {
-        fetch(url)
+    const fetchBooks = (page) => {
+        fetch(url + page + "&pageSize=10")
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
@@ -15,7 +17,8 @@ export const ShowAllBooks = () => {
                 return res.json();
             })
             .then((d) => {
-                setData(d);
+                setBooks(d.content);
+                setTotalPages(d.totalPages);
             })
             .catch((error) => {
                 console.error("Error fetching books:", error);
@@ -23,15 +26,27 @@ export const ShowAllBooks = () => {
     };
 
     useEffect(() => {
-        fetchBooks();
-    }, []);
+        fetchBooks(currentPage);
+    }, [currentPage]);
+
+    const previousPage = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const nextPage = () => {
+        if (currentPage < totalPages - 1) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
     return (
         <div>
             <Header />
-            <div className="find-book-container">
+            <div className="book-container">
                 <h1>All Book</h1>
-
+                <div className="underline"></div>
                 <table className="table" align="center">
                     <thead>
                         <tr>
@@ -44,12 +59,12 @@ export const ShowAllBooks = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.length === 0 ? (
+                        {totalPages === 0 ? (
                             <tr>
                                 <td colSpan="10">No books available</td>
                             </tr>
                         ) : (
-                            data.map((book) => (
+                            books.map((book) => (
                                 <tr key={book.bookId}>
                                     <td>{book.bookId}</td>
                                     <td>{book.bookName}</td>
@@ -62,6 +77,20 @@ export const ShowAllBooks = () => {
                         )}
                     </tbody>
                 </table>
+                {currentPage === 0 ? (
+                    <></>
+                ) : (
+                    <button type="button" onClick={previousPage}>
+                        Previous
+                    </button>
+                )}
+                {currentPage === totalPages - 1 ? (
+                    <></>
+                ) : (
+                    <button type="button" onClick={nextPage}>
+                        Next
+                    </button>
+                )}
             </div>
         </div>
     );

@@ -1,8 +1,10 @@
 package com.kane.elibrary.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.kane.elibrary.domain.Book;
@@ -16,14 +18,16 @@ public class BookRetrievalServiceImpl implements BookRetrievalService {
     private BookRepository bookRepo;
 
     @Override
-    public List<Book> fetchAllBooks() {
-        List<Book> books = bookRepo.findAll();
+    public Page<Book> fetchAllBooks(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("bookName").ascending());
+        Page<Book> books = bookRepo.findAll(pageable);
         return books;
     }
 
     @Override
-    public List<Book> fetchBook(String bookName) {
-        List<Book> books = bookRepo.findByBookNameLike(bookName);
+    public Page<Book> fetchBook(String bookName, int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("bookName").ascending());
+        Page<Book> books = bookRepo.findByBookNameLike(bookName, pageable);
         return books;
     }
 

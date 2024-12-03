@@ -4,7 +4,6 @@
     flex-direction: column;
     margin: auto;
     margin-top: 10px;
-    /* background: #c69874; */
     padding-bottom: 30px;
 }
 
@@ -15,7 +14,6 @@
     margin: auto;
     margin-top: 50px;
     width: 800px;
-    /* background: #c69874; */
     padding-bottom: 30px;
     gap: 30px;
     align-items: center;
@@ -33,16 +31,16 @@
 
 .text
 {
-    color: #080113;
+    color: #fff;
     font-size: 40px;
     font-weight: 700;
 }
 
-.underline
+.library-underline
 {
     width: 700px;
     height: 6px;
-    background: #080113;
+    background: #fff;
     border-radius: 9px;
 }
 
@@ -54,12 +52,26 @@
     align-items: center;
     width: 220px;
     height: 59px;
-    color: #fff;
-    background: #080113;
+    color: #000;
+    background: #fff;
     border-radius: 50px;
     font-size: 19px;
     font-weight: 700;
     cursor: pointer;
+    text-decoration: none;
+}
+
+.service-button:hover {
+    background-color: #f0f0f0; /* Slightly lighter background on hover */
+    color: #000;
+}
+
+.service-button:active,
+.service-button:focus {
+    color: #000; /* Retain original text color */
+    background-color: #fff; /* Retain original background */
+    outline: none; /* Remove focus outline */
+    box-shadow: none; /* No shadow on click */
 }
 
 .gray
