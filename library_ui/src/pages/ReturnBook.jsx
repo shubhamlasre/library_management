@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Header } from "../components/LibraryUI/Header";
-import { toast, ToastContainer } from "react-toastify";
 import "./IssueBook.css";
 
 export const ReturnBook = () => {
     const url = "http://localhost:8080/returnBook";
-    const [data, setData] = useState("");
+    const [response, setResponse] = useState("");
+    const [action, setAction] = useState("");
     const [values, setValues] = useState({
         issueId: "",
         name: "",
@@ -29,13 +29,13 @@ export const ReturnBook = () => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
                 }
-                return res.json();
+                return res.text();
             })
             .then((d) => {
-                setData(d);
+                setResponse(d);
             })
             .catch((error) => {
-                console.error("Error fetching books:", error);
+                console.error("Error Returning books:", error);
             });
     };
 
@@ -46,20 +46,12 @@ export const ReturnBook = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         returnBooks();
-        toast(data, {
-            closeButton: ({ closeToast }) => (
-                <button
-                    onClick={() => {
-                        closeToast();
-                    }}>
-                    OK
-                </button>
-            ),
-        });
+        setAction("Submitted");
     };
 
     const ResetFunction = () => {
         setValues({ bookId: "", name: "", contact: "" });
+        setAction("");
     };
 
     return (
@@ -68,18 +60,18 @@ export const ReturnBook = () => {
             <div className="return-book-container">
                 <h1>Return Book</h1>
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="issueId">Issue Number</label>
+                    <label htmlFor="issueId">Issue Number*</label>
                     <input type="text" placeholder="Enter Issue Number" name="issueId" onChange={(e) => handleChanges(e)} required value={values.issueId} />
                     <label htmlFor="name">Name*</label>
                     <input type="text" placeholder="Enter Name" name="name" onChange={(e) => handleChanges(e)} required value={values.name} />
-                    <label htmlFor="contact">Contact</label>
+                    <label htmlFor="contact">Contact*</label>
                     <input type="text" placeholder="Enter Phone #" name="contact" onChange={(e) => handleChanges(e)} required value={values.contact} />
+                    {action === "Submitted" ? <div className="response-message">{response}</div> : <div></div>}
                     <button type="button" onClick={ResetFunction}>
                         Reset
                     </button>
                     <button type="submit">Submit</button>
                 </form>
-                <ToastContainer />
             </div>
         </div>
     );

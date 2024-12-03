@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Header } from "../components/LibraryUI/Header";
-import { toast, ToastContainer } from "react-toastify";
 import "./IssueBook.css";
 
 export const IssueBook = () => {
     const url = "http://localhost:8080/issueBook";
-    const [data, setData] = useState("");
+    const [response, setResponse] = useState("");
+    const [action, setAction] = useState("");
     const [values, setValues] = useState({
         bookId: "",
         borrowerName: "",
@@ -33,19 +33,15 @@ export const IssueBook = () => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
                 }
-                return res.json();
+                return res.text();
             })
             .then((d) => {
-                setData(d);
+                setResponse(d);
             })
             .catch((error) => {
-                console.error("Error fetching books:", error);
+                console.error("Error Issuing books:", error);
             });
     };
-
-    // useEffect(() => {
-    //     issueBooks();
-    // }, "");
 
     const handleChanges = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
@@ -54,21 +50,12 @@ export const IssueBook = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         issueBooks();
-        toast(data, {
-            closeButton: ({ closeToast }) => (
-                <button
-                    onClick={() => {
-                        closeToast();
-                    }}>
-                    OK
-                </button>
-            ),
-        });
-        console.log(values);
+        setAction("Submitted");
     };
 
     const ResetFunction = () => {
         setValues({ bookId: "", borrowerName: "", email: "", contact: "", issuedBy: "" });
+        setAction("");
     };
 
     return (
@@ -77,24 +64,28 @@ export const IssueBook = () => {
             <div className="issue-book-container">
                 <h1>Issue Book</h1>
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="bookId">Book Id</label>
+                    <label htmlFor="bookId">Book Id*</label>
                     <input type="text" placeholder="Enter Book Id" name="bookId" onChange={(e) => handleChanges(e)} required value={values.bookId} />
                     <label htmlFor="borrowerName">Name*</label>
                     <input type="text" placeholder="Enter Name" name="borrowerName" onChange={(e) => handleChanges(e)} required value={values.borrowerName} />
                     <label htmlFor="email">Email*</label>
                     <input type="email" placeholder="Enter Email" name="email" onChange={(e) => handleChanges(e)} required value={values.email} />
-                    <label htmlFor="contact">Contact</label>
+                    <label htmlFor="contact">Contact*</label>
                     <input type="text" placeholder="Enter Phone #" name="contact" onChange={(e) => handleChanges(e)} required value={values.contact} />
-                    <label htmlFor="issuedBy">issued By</label>
+                    <label htmlFor="issuedBy">issued By*</label>
                     <input type="text" placeholder="Issued By" name="issuedBy" onChange={(e) => handleChanges(e)} required value={values.issuedBy} />
+                    {action === "Submitted" ? <div className="response-message">{response}</div> : <div></div>}
                     <button type="button" onClick={ResetFunction}>
                         Reset
                     </button>
-                    <button type="submit" onClick={handleSubmit}>
+                    <button
+                        type="submit"
+                        onClick={() => {
+                            setAction("Submitted");
+                        }}>
                         Submit
                     </button>
                 </form>
-                <ToastContainer />
             </div>
         </div>
     );

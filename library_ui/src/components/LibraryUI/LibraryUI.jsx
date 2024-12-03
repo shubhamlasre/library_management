@@ -18,7 +18,7 @@ export const LibraryUI = () => {
     return (
         <div className="container">
             <Header />
-            <div className="service-container" style={myStyle}>
+            <div className="service-container">
                 <div className="service-button">
                     <Link to="/issueBook">Issue Book</Link>
                 </div>
