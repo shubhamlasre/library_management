@@ -8,9 +8,10 @@ export const FindBook = () => {
     const [books, setBooks] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [action, setAction] = useState("");
 
-    const fetchBook = () => {
-        fetch(url + bookName + "&pageNumber=" + currentPage + "&pageSize=10")
+    const fetchBook = (page) => {
+        fetch(url + bookName + "&pageNumber=" + page + "&pageSize=10")
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
@@ -32,20 +33,22 @@ export const FindBook = () => {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        fetchBook();
+        fetchBook(currentPage);
+        setAction("Searched");
     };
 
     const previousPage = () => {
+        setAction("Searched");
+        fetchBook(currentPage - 1);
         if (currentPage > 0) {
             setCurrentPage(currentPage - 1);
-            fetchBook(currentPage);
         }
     };
 
     const nextPage = () => {
+        fetchBook(currentPage + 1);
         if (currentPage < totalPages - 1) {
             setCurrentPage(currentPage + 1);
-            fetchBook(currentPage);
         }
     };
 
@@ -91,13 +94,13 @@ export const FindBook = () => {
                     </tbody>
                 </table>
                 {currentPage === 0 ? (
-                    <></>
+                    <div></div>
                 ) : (
                     <button type="button" onClick={previousPage}>
                         Previous
                     </button>
                 )}
-                {books.length === 0 || currentPage === totalPages - 1 ? (
+                {action !== "Searched" || currentPage === totalPages - 1 ? (
                     <></>
                 ) : (
                     <button type="button" onClick={nextPage}>
